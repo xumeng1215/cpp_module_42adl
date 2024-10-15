@@ -1,9 +1,9 @@
-NAME = megaphone
+NAME = testZombie
 
 CC = c++
 CFLAG =  -Wall -Wextra -Werror -std=c++98
 
-SRC = megaphone.cpp
+SRC = Zombie.cpp randomChump.cpp newZombie.cpp main.cpp
 
 OBJ = $(SRC:.cpp=.o)
 

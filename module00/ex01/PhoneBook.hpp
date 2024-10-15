@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cstdio>
+#include <limits>
 
 #include "Contact.hpp"
 

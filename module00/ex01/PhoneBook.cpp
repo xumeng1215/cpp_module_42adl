@@ -16,8 +16,6 @@ void PhoneBook::add_contact()
 	str phone;
 	str note;
 
-	if (this->contact_index == 8)
-		this->contact_index = 0;
 	std::cout << "Enter First Name:";
 	std::getline(std::cin, first_name);
 	std::cout << "Enter Last Name:";
@@ -28,15 +26,26 @@ void PhoneBook::add_contact()
 	std::getline(std::cin, phone);
 	std::cout << "Enter Note:";
 	std::getline(std::cin, note);
-	this->array[this->contact_index].setFirstName(first_name);
-	this->array[this->contact_index].setLastName(last_name);
-	this->array[this->contact_index].setNickName(nick_name);
-	this->array[this->contact_index].setPhone(phone);
-	this->array[this->contact_index].setNote(note);
-	std::cout << "You just added a contact." << std::endl;
-	this->contact_index++;
-	if (count < 8)
-		count++;
+
+	if (first_name.empty() || last_name.empty() ||
+		nick_name.empty() || phone.empty() || note.empty())
+	{
+		std::cout << "No empty value allowed. Try again." << std::endl;
+	}
+	else
+	{
+		if (this->contact_index == 8)
+			this->contact_index = 0;
+		this->array[this->contact_index].setFirstName(first_name);
+		this->array[this->contact_index].setLastName(last_name);
+		this->array[this->contact_index].setNickName(nick_name);
+		this->array[this->contact_index].setPhone(phone);
+		this->array[this->contact_index].setNote(note);
+		std::cout << "You just added a contact." << std::endl;
+		this->contact_index++;
+		if (count < 8)
+			count++;
+	}
 }
 
 void PhoneBook::search_contact()
@@ -75,17 +84,16 @@ void PhoneBook::search_contact()
 	}
 	std::cout << "Enter the index of a contact:";
 	std::cin >> i;
-	if (!(i >= 0 && i < this->count))
+	if (std::cin.fail() || !(i >= 0 && i < this->count))
 	{
-		std::cout << "Check the contact list and try again." << std::endl;
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+		std::cout << "Invalid input. Try again." << std::endl;
+		return;
 	}
-	else
-	{
-		std::cout << "Last Name: " << this->array[i].getLastName() << std::endl;
-		std::cout << "First Name: " << this->array[i].getFirstName() << std::endl;
-		std::cout << "Nick Name: " << this->array[i].getNickName() << std::endl;
-		std::cout << "Phone: " << this->array[i].getPhone() << std::endl;
-		std::cout << "Note: " << this->array[i].getNote() << std::endl;
-	}
-	getchar();
+	std::cout << "Last Name: " << this->array[i].getLastName() << std::endl;
+	std::cout << "First Name: " << this->array[i].getFirstName() << std::endl;
+	std::cout << "Nick Name: " << this->array[i].getNickName() << std::endl;
+	std::cout << "Phone: " << this->array[i].getPhone() << std::endl;
+	std::cout << "Note: " << this->array[i].getNote() << std::endl;
 }

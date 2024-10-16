@@ -38,18 +38,30 @@ Fixed &Fixed::operator=(const Fixed &src)
 
 int Fixed::getRawBits(void) const
 {
-	std::cout << "getRawBits member function called." << std::endl;
+	// std::cout << "getRawBits member function called." << std::endl;
 	return this->_value;
 }
 
 void Fixed::setRawBits(int const raw)
 {
-	std::cout << "setRawBits member function called." << std::endl;
+	// std::cout << "setRawBits member function called." << std::endl;
 	this->_value = raw;
 }
 
 int Fixed::toInt(void) const
 {
+	return _value >> _frac_bits;
+}
+
+float Fixed::toFloat(void) const
+{
+	return static_cast<float>(_value) / (1 << _frac_bits);
+}
+
+std::ostream &operator<<(std::ostream &out, const Fixed &fixed)
+{
+	out << fixed.toFloat();
+	return out;
 }
 
 const int Fixed::_frac_bits = 8;

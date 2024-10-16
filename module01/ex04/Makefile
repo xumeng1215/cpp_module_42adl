@@ -1,9 +1,9 @@
-NAME = megaphone
+NAME = testSedisforlosers
 
 CC = c++
 CFLAG =  -Wall -Wextra -Werror -std=c++98
 
-SRC = megaphone.cpp
+SRC = main.cpp
 
 OBJ = $(SRC:.cpp=.o)
 

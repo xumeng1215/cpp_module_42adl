@@ -1,9 +1,10 @@
-NAME = megaphone
+NAME = harlFilter
 
 CC = c++
-CFLAG =  -Wall -Wextra -Werror -std=c++98
+# CFLAG =  -Wall -Wextra -Werror -std=c++98
+CFLAG =  -Wall -Wextra -std=c++98
 
-SRC = megaphone.cpp
+SRC = main.cpp Harl.cpp
 
 OBJ = $(SRC:.cpp=.o)
 

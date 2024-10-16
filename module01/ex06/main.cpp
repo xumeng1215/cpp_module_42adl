@@ -12,26 +12,6 @@ int mapping(char *str)
 	return -1;
 }
 
-void harlSwitch(char *str, Harl &harl)
-{
-	int i = mapping(str);
-
-	switch (i)
-	{
-	case 0:
-		harl.complain("DEBUG");
-	case 1:
-		harl.complain("INFO");
-	case 2:
-		harl.complain("WARNING");
-	case 3:
-		harl.complain("ERROR");
-		break;
-	default:
-		std::cout << "[ Probably complaining about insignificant problems ]" << std::endl;
-	}
-}
-
 int main(int ac, char **av)
 {
 	Harl harl;
@@ -39,6 +19,21 @@ int main(int ac, char **av)
 	if (ac != 2)
 		std::cout << "[ Probably complaining about insignificant problems ]" << std::endl;
 	else
-		harlSwitch(av[1], harl);
+	{
+		switch (mapping(av[1]))
+		{
+		case 0:
+			harl.complain("DEBUG");
+		case 1:
+			harl.complain("INFO");
+		case 2:
+			harl.complain("WARNING");
+		case 3:
+			harl.complain("ERROR");
+			break;
+		default:
+			std::cout << "[ Probably complaining about insignificant problems ]" << std::endl;
+		}
+	}
 	return 0;
 }

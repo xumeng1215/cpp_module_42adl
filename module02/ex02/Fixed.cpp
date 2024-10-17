@@ -6,17 +6,27 @@ Fixed::Fixed() : _value(0) {}
 
 Fixed::~Fixed() {}
 
-Fixed::Fixed(const Fixed &copy) { *this = copy; }
+Fixed::Fixed(const Fixed &copy)
+{
+	// std::cout << "Copy constructor called." << std::endl;
+	*this = copy;
+}
 
-Fixed::Fixed(const int num) { this->_value = num << this->_frac_bits; }
+Fixed::Fixed(const int num)
+{
+	// std::cout << "Integer constructor called." << std::endl;
+	this->_value = num << this->_frac_bits;
+}
 
 Fixed::Fixed(const float num)
 {
+	// std::cout << "Float constructor called." << std::endl;
 	this->_value = static_cast<int>(roundf(num * (1 << this->_frac_bits)));
 }
 
 Fixed &Fixed::operator=(const Fixed &src)
 {
+	// std::cout << "Copy assignment operator called." << std::endl;
 	if (this != &src)
 		this->_value = src.getRawBits();
 	return *this;
@@ -31,10 +41,22 @@ bool Fixed::operator==(const Fixed &src) const { return this->_value == src._val
 bool Fixed::operator!=(const Fixed &src) const { return this->_value != src._value; }
 
 // +, -, *, and /
-Fixed Fixed::operator+(const Fixed &src) const { return Fixed(this->_value + src._value); }
-Fixed Fixed::operator-(const Fixed &src) const { return Fixed(this->_value - src._value); }
-Fixed Fixed::operator*(const Fixed &src) const { return (Fixed((this->_value * src._value) >> this->_frac_bits)); }
-Fixed Fixed::operator/(const Fixed &src) const { return Fixed((this->_value << this->_frac_bits) / src._value); }
+Fixed Fixed::operator+(const Fixed &src) const
+{
+	return Fixed(this->toFloat() + src.toFloat());
+}
+Fixed Fixed::operator-(const Fixed &src) const
+{
+	return Fixed(this->toFloat() - src.toFloat());
+}
+Fixed Fixed::operator*(const Fixed &src) const
+{
+	return Fixed(this->toFloat() * src.toFloat());
+}
+Fixed Fixed::operator/(const Fixed &src) const
+{
+	return Fixed(this->toFloat() / src.toFloat());
+}
 
 // pre-increment and post-increment, pre-decrement and post-decrement
 Fixed &Fixed::operator++()
@@ -80,6 +102,7 @@ int Fixed::toInt(void) const
 
 float Fixed::toFloat(void) const
 {
+	// std::cout << "Calling toFloat() this value is " << this->_value << std::endl;
 	return static_cast<float>(_value) / (1 << _frac_bits);
 }
 

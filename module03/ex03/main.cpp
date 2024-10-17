@@ -22,4 +22,6 @@ int main(void)
 
 	f1.highFiveGuys();
 	d1.whoAmI();
+	d1.attack("Someone");
+	d1.info();
 }

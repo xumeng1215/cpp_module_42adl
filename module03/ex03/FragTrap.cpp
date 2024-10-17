@@ -17,3 +17,10 @@ void FragTrap::highFiveGuys()
 {
 	std::cout << "FragTrap HighFiveGuys!!!" << std::endl;
 }
+
+void FragTrap::attack(const std::string &target)
+{
+	std::cout << "FragTrap " << this->_name << " attacks " << target
+			  << ", causing " << this->_dmg << " points of damage!"
+			  << std::endl;
+}

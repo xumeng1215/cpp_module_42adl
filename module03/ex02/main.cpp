@@ -17,6 +17,9 @@ int main(void)
 
 	s1.guardGate();
 	s1.attack("ST0002");
+	s1.info();
 
 	f1.highFiveGuys();
+	f1.attack("FT0002");
+	f1.info();
 }

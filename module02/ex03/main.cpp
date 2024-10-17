@@ -12,8 +12,8 @@ int main()
 
 	Point p1(5.0f, 5.0f);
 	Point p2(10.0f, 10.0f);
-	Point p3(0.0f, 0.0f);
-	Point p4(5.0f, 0.0f);
+	Point p3(1.1f, 2.2f);
+	Point p4(5.0f, 1.0f);
 
 	std::cout << "Is p1 inside the triangle? " << (bsp(a, b, c, p1) ? "Yes" : "No") << std::endl;
 	std::cout << "Is p2 inside the triangle? " << (bsp(a, b, c, p2) ? "Yes" : "No") << std::endl;

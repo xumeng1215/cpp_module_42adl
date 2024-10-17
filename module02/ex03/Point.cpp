@@ -22,9 +22,8 @@ Point::Point(const float num1, const float num2) : _x(num1), _y(num2)
 {
 }
 
-Point::Point(const Point &copy)
+Point::Point(const Point &copy) : _x(copy.getX()), _y(copy.getY())
 {
-	*this = copy;
 }
 
 Point &Point::operator=(const Point &src)

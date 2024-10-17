@@ -1,4 +1,4 @@
-#include "Point.cpp"
+#include "Point.hpp"
 
 static float area(const Point &p1, const Point &p2, const Point &p3)
 {
@@ -14,6 +14,11 @@ bool bsp(Point const a, Point const b, Point const c, Point const point)
 	float area1 = area(point, a, b);
 	float area2 = area(point, b, c);
 	float area3 = area(point, a, c);
+
+	// std::cout << "area1 is " << area1 << std::endl;
+	// std::cout << "area2 is " << area2 << std::endl;
+	// std::cout << "area3 is " << area3 << std::endl;
+	// std::cout << "full area is " << full_area << std::endl;
 
 	if (area1 == 0 || area2 == 0 || area3 == 0)
 		return false;

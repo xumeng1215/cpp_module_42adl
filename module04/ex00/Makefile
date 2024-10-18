@@ -3,7 +3,7 @@ NAME = test
 CC = c++
 CFLAG =  -Wall -Wextra -Werror -std=c++98
 
-SRC = main.cpp Cat.cpp Dog.cpp Animal.cpp
+SRC = main.cpp Cat.cpp Dog.cpp Animal.cpp WrongAnimal.cpp WrongCat.cpp
 
 OBJ = $(SRC:.cpp=.o)
 

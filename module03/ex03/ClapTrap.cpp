@@ -11,6 +11,24 @@ ClapTrap::~ClapTrap()
 	std::cout << "ClapTrap " << this->_name << " is destructed." << std::endl;
 }
 
+ClapTrap::ClapTrap(const ClapTrap &other)
+	: _name(other._name), _hp(other._hp), _energy(other._energy), _dmg(other._dmg)
+{
+	std::cout << "ClapTrap " << _name << " is copied." << std::endl;
+}
+
+ClapTrap &ClapTrap::operator=(const ClapTrap &other)
+{
+	if (this == &other)
+		return *this;
+	_name = other._name;
+	_hp = other._hp;
+	_energy = other._energy;
+	_dmg = other._dmg;
+	std::cout << "ClapTrap " << _name << " is assigned." << std::endl;
+	return *this;
+}
+
 void ClapTrap::attack(const std::string &target)
 {
 	std::cout << "ClapTrap " << this->_name << " attacks " << target

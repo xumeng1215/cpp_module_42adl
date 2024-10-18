@@ -13,6 +13,20 @@ FragTrap::~FragTrap()
 	std::cout << "FragTrap " << this->_name << " is destructed." << std::endl;
 }
 
+FragTrap::FragTrap(const FragTrap &other) : ClapTrap(other)
+{
+	std::cout << "FragTrap " << _name << " is copied." << std::endl;
+}
+
+FragTrap &FragTrap::operator=(const FragTrap &other)
+{
+	if (this == &other)
+		return *this;
+	ClapTrap::operator=(other);
+	std::cout << "FragTrap " << _name << " is assigned." << std::endl;
+	return *this;
+}
+
 void FragTrap::highFiveGuys()
 {
 	std::cout << "FragTrap HighFiveGuys!!!" << std::endl;

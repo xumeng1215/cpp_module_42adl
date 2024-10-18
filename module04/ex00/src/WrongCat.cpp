@@ -22,8 +22,8 @@ WrongCat &WrongCat::operator=(const WrongCat &other)
 	if (this == &other)
 		return *this;
 	WrongAnimal::operator=(other);
-	return *this;
 	std::cout << "WrongCat " << type << " is assigned." << std::endl;
+	return *this;
 }
 
 void WrongCat::makeSound(void) const

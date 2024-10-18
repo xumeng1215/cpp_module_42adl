@@ -21,8 +21,8 @@ WrongAnimal &WrongAnimal::operator=(const WrongAnimal &other)
 	if (this == &other)
 		return *this;
 	this->type = other.type;
-	return *this;
 	std::cout << "WrongAnimal " << type << " is assigned." << std::endl;
+	return *this;
 }
 
 std::string WrongAnimal::getType(void) const

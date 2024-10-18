@@ -22,8 +22,8 @@ Cat &Cat::operator=(const Cat &other)
 	if (this == &other)
 		return *this;
 	Animal::operator=(other);
-	return *this;
 	std::cout << "Cat " << type << " is assigned." << std::endl;
+	return *this;
 }
 
 void Cat::makeSound(void) const

@@ -21,8 +21,8 @@ Animal &Animal::operator=(const Animal &other)
 	if (this == &other)
 		return *this;
 	this->type = other.type;
-	return *this;
 	std::cout << "Animal " << type << " is assigned." << std::endl;
+	return *this;
 }
 
 std::string Animal::getType(void) const

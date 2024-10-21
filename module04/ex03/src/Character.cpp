@@ -45,15 +45,49 @@ void Character::setName(std::string const &name)
 
 void Character::equip(AMateria *m)
 {
+	if (!m)
+	{
+		std::cout << "Not a valid Materia." << std::endl;
+		return;
+	}
 	for (int i = 0; i < 4; i++)
 	{
-		if (m != NULL && this->_slot[i] == NULL)
+		if (this->_slot[i] == NULL)
 		{
 			this->_slot[i] = m;
 			std::cout << "Materia " << m->getType() << " equiped at Character "
-					  << this->_name << "'s slot [" << i << "]." << std::endl;
+					  << this->_name << " slot [" << i << "]." << std::endl;
 			return;
 		}
 	}
-	std::cout << "There's no slot for a new Materia." << std::endl;
+	std::cout << "The slot is full." << std::endl;
+}
+
+void Character::unequip(int idx)
+{
+	if (idx >= 0 && idx < 4)
+	{
+		if (this->_slot[idx])
+		{
+			this->_slot[idx] == NULL;
+			std::cout << "Character " << this->_name << " unequiped slot[" << idx << "]." << std::endl;
+		}
+		else
+			std::cout << "Character " << this->_name << "slot[" << idx << "] is empty." << std::endl;
+	}
+	else
+		std::cout << "The slot index is not valid." << std::endl;
+}
+
+void Character::use(int idx, ICharacter &target)
+{
+	if (idx >= 0 && idx < 4)
+	{
+		if (this->_slot[idx])
+			this->_slot[idx]->use(target);
+		else
+			std::cout << "Character " << this->_name << " can't use it, slot[" << idx << "] is empty." << std::endl;
+	}
+	else
+		std::cout << "The slot index is not valid." << std::endl;
 }

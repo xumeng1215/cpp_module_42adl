@@ -1,12 +1,12 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include <ICharacter.hpp>
+#include "ICharacter.hpp"
 
 class AMateria
 {
   protected:
-	std::string type;
+	std::string _type;
 
   public:
 	AMateria(std::string const &type);

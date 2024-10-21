@@ -5,26 +5,16 @@
 
 class AMateria
 {
-protected:
+  protected:
 	std::string type;
-public:
+
+  public:
 	AMateria(std::string const &type);
 	virtual ~AMateria();
 	AMateria(const AMateria &other);
 	AMateria &operator=(const AMateria &other);
 
-	std::string const &getType() const;
-
-	virtual AMateria* clone() const =0;
-	virtual void use(ICharacter& target);
-
-
+	std::string const &getType() const; //Returns the materia type
+	virtual AMateria *clone() const = 0;
+	virtual void use(ICharacter &target);
 };
-
-AMateria::AMateria(std::string const &type)
-{
-}
-
-AMateria::~AMateria()
-{
-}

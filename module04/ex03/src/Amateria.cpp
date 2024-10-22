@@ -3,7 +3,7 @@
 
 AMateria::AMateria()
 {
-	std::cout << "Amateria default constructor called." << std::endl;
+	std::cout << "AMateria default constructor called." << std::endl;
 }
 
 AMateria::AMateria(std::string const &type) : _type(type)
@@ -37,5 +37,6 @@ std::string const &AMateria::getType() const
 
 void AMateria::use(ICharacter &target)
 {
+	(void)target;
 	std::cout << "AMateria use function called." << this->_type << std::endl;
 }

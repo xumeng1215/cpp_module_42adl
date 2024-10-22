@@ -7,8 +7,8 @@
 class Character : public ICharacter
 {
 private:
-	AMateria *_slot[4];
 	std::string _name;
+	AMateria *_slot[4];
 
 public:
 	Character(std::string const &name);

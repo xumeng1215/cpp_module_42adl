@@ -39,10 +39,29 @@ MateriaSource &MateriaSource::operator=(const MateriaSource &other)
 
 void MateriaSource::learnMateria(AMateria *m)
 {
-
+	if (!m)
+	{
+		std::cout << "The Materia is not valid for MateriaSource." << std::endl;
+		return;
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		if (this->_source[i] == NULL)
+		{
+			this->_source[i] = m;
+			std::cout << "Materia " << this->_source[i]->getType() << " learned to source[" << i << "]." << std::endl;
+			return;
+		}
+	}
+	std::cout << "The MateriaSource is full." << std::endl;
+	return;
 }
 
 AMateria *MateriaSource::createMateria(std::string const &type)
 {
-	return nullptr;
+	for (int i = 0; i < 4; i++)
+		if (this->_source[i] && this->_source[i]->getType() == type)
+			return this->_source[i]->clone();
+	std::cout << "Can't create Materia, the type " << type << " is not valid." << std::endl;
+	return 0;
 }

@@ -1,8 +1,8 @@
 #include "Character.hpp"
 
-Character::Character(std::string const &name) : _name("default_name"), _slot()
+Character::Character(std::string const &name) : _name(name), _slot()
 {
-	std::cout << "Character constructor called." << std::endl;
+	std::cout << "Character constructor called. The new character is " << this->_name << "." << std::endl;
 }
 
 Character::~Character()
@@ -69,7 +69,8 @@ void Character::unequip(int idx)
 	{
 		if (this->_slot[idx])
 		{
-			this->_slot[idx] == NULL;
+			this->_slot[idx] = NULL;
+			//TODO!!!!!LEAK???
 			std::cout << "Character " << this->_name << " unequiped slot[" << idx << "]." << std::endl;
 		}
 		else

@@ -12,9 +12,9 @@ int main()
 	src->learnMateria(new Cure());
 	ICharacter *me = new Character("me");
 	AMateria *tmp;
-	tmp = src->createMateria("ice");
+	tmp = src->createMateria("Ice");
 	me->equip(tmp);
-	tmp = src->createMateria("cure");
+	tmp = src->createMateria("Cure");
 	me->equip(tmp);
 	ICharacter *bob = new Character("bob");
 	me->use(0, *bob);

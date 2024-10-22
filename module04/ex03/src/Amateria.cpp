@@ -8,17 +8,17 @@ AMateria::AMateria()
 
 AMateria::AMateria(std::string const &type) : _type(type)
 {
-	std::cout << "Amateria constructor called. " << this->_type << std::endl;
+	std::cout << "Amateria " << this->_type << " is constructed." << std::endl;
 }
 
 AMateria::~AMateria()
 {
-	std::cout << "Amateria destructor called. " << this->_type << std::endl;
+	std::cout << "Amateria " << this->_type << " is destructed." << std::endl;
 }
 
 AMateria::AMateria(const AMateria &other) : _type(other._type)
 {
-	std::cout << "AMateria copy constructor called." << this->_type << std::endl;
+	std::cout << "AMateria " << this->_type << " is copied." << std::endl;
 }
 
 AMateria &AMateria::operator=(const AMateria &other)
@@ -38,5 +38,5 @@ std::string const &AMateria::getType() const
 void AMateria::use(ICharacter &target)
 {
 	(void)target;
-	std::cout << "AMateria use function called." << this->_type << std::endl;
+	std::cout << "AMateria use function called. Type is " << this->_type << std::endl;
 }

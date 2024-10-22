@@ -1,16 +1,28 @@
 #include "Character.hpp"
 
-Character::Character(std::string const &name) : _name(name), _slot()
+Character::Character(std::string const &name) : _name(name)
 {
-	std::cout << "Character constructor called. The new character is " << this->_name << "." << std::endl;
+	std::cout << "The new character " << this->_name << " is constructed." << std::endl;
+	for (int i = 0; i < 4; i++)
+	{
+		this->_slot[i] = NULL;
+		this->_bag[i] = NULL;
+	}
 }
 
 Character::~Character()
 {
-	std::cout << "Character destructor called." << std::endl;
+	std::cout << "Character " << this->_name << " will be destructed." << std::endl;
 	for (int i = 0; i < 4; i++)
+	{
 		if (this->_slot[i])
 			delete this->_slot[i];
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		if (this->_bag[i])
+			delete this->_bag[i];
+	}
 }
 Character::Character(const Character &other) : ICharacter(other), _name(other._name), _slot()
 {
@@ -47,7 +59,7 @@ void Character::equip(AMateria *m)
 {
 	if (!m)
 	{
-		std::cout << "Not a valid Materia." << std::endl;
+		std::cout << this->_name << " can't equip this. Not a valid Materia." << std::endl;
 		return;
 	}
 	for (int i = 0; i < 4; i++)
@@ -55,12 +67,11 @@ void Character::equip(AMateria *m)
 		if (this->_slot[i] == NULL)
 		{
 			this->_slot[i] = m;
-			std::cout << "Materia " << m->getType() << " equiped at Character "
-					  << this->_name << " slot [" << i << "]." << std::endl;
+			std::cout << this->_name << " equipted Materia " << m->getType() << " at slot [" << i << "]." << std::endl;
 			return;
 		}
 	}
-	std::cout << "The slot is full." << std::endl;
+	std::cout << this->_name << "can't equip this, the slot is full." << std::endl;
 }
 
 void Character::unequip(int idx)
@@ -69,12 +80,14 @@ void Character::unequip(int idx)
 	{
 		if (this->_slot[idx])
 		{
+			std::cout << this->_name << " unequiped " << this->_slot[idx]->getType() << " at slot[" << idx << "]." << std::endl;
+			if (this->_bag[idx] != NULL)
+				delete this->_bag[idx];
+			this->_bag[idx] = this->_slot[idx];
 			this->_slot[idx] = NULL;
-			//TODO!!!!!LEAK???
-			std::cout << "Character " << this->_name << " unequiped slot[" << idx << "]." << std::endl;
 		}
 		else
-			std::cout << "Character " << this->_name << "slot[" << idx << "] is empty." << std::endl;
+			std::cout << "Character can't unequip. " << this->_name << " slot[" << idx << "] is empty." << std::endl;
 	}
 	else
 		std::cout << "The slot index is not valid." << std::endl;

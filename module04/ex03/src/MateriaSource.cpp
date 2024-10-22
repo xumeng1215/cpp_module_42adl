@@ -10,7 +10,10 @@ MateriaSource::~MateriaSource()
 	std::cout << "MateriaSource destructor called." << std::endl;
 	for (int i = 0; i < 4; i++)
 		if (this->_source[i])
+		{
+			std::cout << this->_source[i]->getType() << " is deleted." << std::endl;
 			delete this->_source[i];
+		}
 }
 
 MateriaSource::MateriaSource(const MateriaSource &other) : IMateriaSource(other)

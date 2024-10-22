@@ -22,11 +22,24 @@ MateriaSource::MateriaSource(const MateriaSource &other) : IMateriaSource(other)
 
 MateriaSource &MateriaSource::operator=(const MateriaSource &other)
 {
-	// TODO: insert return statement here
+	if (this != &other)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			if (_source[i])
+				delete _source[i];
+			if (other._source[i])
+				_source[i] = other._source[i]->clone();
+			else
+				_source[i] = NULL;
+		}
+	}
+	return *this;
 }
 
-void MateriaSource::learnMateria(AMateria *)
+void MateriaSource::learnMateria(AMateria *m)
 {
+
 }
 
 AMateria *MateriaSource::createMateria(std::string const &type)

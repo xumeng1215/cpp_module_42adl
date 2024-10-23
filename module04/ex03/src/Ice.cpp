@@ -1,14 +1,14 @@
 #include "Ice.hpp"
-Ice::Ice() : AMateria("Ice")
+Ice::Ice() : AMateria("ice")
 {
 	std::cout << "Ice default constructor called." << std::endl;
 }
 
-Ice::Ice(std::string const &type) : AMateria(type)
-{
-	this->_type = "Ice";
-	std::cout << "Ice constructor called. " << this->_type << std::endl;
-}
+// Ice::Ice(std::string const &type) : AMateria(type)
+// {
+// 	this->_type = "ice";
+// 	std::cout << "Ice constructor called. " << this->_type << std::endl;
+// }
 
 Ice::~Ice()
 {
@@ -25,7 +25,7 @@ Ice &Ice::operator=(const Ice &other)
 {
 	if (this == &other)
 		return *this;
-	AMateria::operator=(other);
+	this->_type = other._type;
 	std::cout << "Ice " << this->_type << " is assigned." << std::endl;
 	return *this;
 }

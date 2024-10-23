@@ -1,7 +1,9 @@
 #include "MateriaSource.hpp"
 
-MateriaSource::MateriaSource(/* args */) : _source()
+MateriaSource::MateriaSource()
 {
+	for (int i = 0; i < 4; i++)
+		_source[i] = NULL;
 	std::cout << "MateriaSource constructor called." << std::endl;
 }
 
@@ -11,7 +13,7 @@ MateriaSource::~MateriaSource()
 	for (int i = 0; i < 4; i++)
 		if (this->_source[i])
 		{
-			std::cout << this->_source[i]->getType() << " is deleted." << std::endl;
+			// std::cout << this->_source[i]->getType() << " is deleted." << std::endl;
 			delete this->_source[i];
 		}
 }
@@ -57,6 +59,7 @@ void MateriaSource::learnMateria(AMateria *m)
 		}
 	}
 	std::cout << "The MateriaSource is full." << std::endl;
+	delete m;
 	return;
 }
 

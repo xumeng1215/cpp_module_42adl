@@ -5,11 +5,11 @@ Cure::Cure() : AMateria("Cure")
 	std::cout << "Cure default constructor called." << std::endl;
 }
 
-Cure::Cure(std::string const &type) : AMateria(type)
-{
-	this->_type = "Cure";
-	std::cout << "Cure constructor called. " << this->_type << std::endl;
-}
+// Cure::Cure(std::string const &type) : AMateria(type)
+// {
+// 	this->_type = "Cure";
+// 	std::cout << "Cure constructor called. " << this->_type << std::endl;
+// }
 
 Cure::~Cure()
 {
@@ -26,7 +26,7 @@ Cure &Cure::operator=(const Cure &other)
 {
 	if (this == &other)
 		return *this;
-	AMateria::operator=(other);
+	this->_type = other._type;
 	std::cout << "Cure " << this->_type << " is assigned." << std::endl;
 	return *this;
 }

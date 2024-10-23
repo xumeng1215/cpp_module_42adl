@@ -17,18 +17,20 @@ Character::~Character()
 	{
 		if (this->_slot[i])
 			delete this->_slot[i];
-	}
-	for (int i = 0; i < 4; i++)
-	{
 		if (this->_bag[i])
 			delete this->_bag[i];
 	}
 }
-Character::Character(const Character &other) : ICharacter(other), _name(other._name), _slot()
+Character::Character(const Character &other)
+	: ICharacter(other), _name(other._name), _slot(), _bag()
 {
 	for (int i = 0; i < 4; i++)
+	{
 		if (other._slot[i])
 			this->_slot[i] = other._slot[i]->clone();
+		if (other._bag[i])
+			this->_bag[i] = other._bag[i]->clone();
+	}
 }
 
 Character &Character::operator=(const Character &other)
@@ -37,11 +39,12 @@ Character &Character::operator=(const Character &other)
 		return *this;
 	this->_name = other.getName();
 	for (int i = 0; i < 4; i++)
+	{
 		if (other._slot[i])
-		{
-			delete this->_slot[i];
-			this->_slot[i] = other._slot[i]->clone();
-		}
+			this->_slot[i]->setType(other._slot[i]->getType());
+		if (other._bag[i])
+			this->_bag[i]->setType(other._bag[i]->getType());
+	}
 	return *this;
 }
 

@@ -1,10 +1,10 @@
 #include "AMateria.hpp"
 #include "Color.hpp"
 
-AMateria::AMateria()
-{
-	std::cout << "AMateria default constructor called." << std::endl;
-}
+// AMateria::AMateria()
+// {
+// 	std::cout << "AMateria default constructor called." << std::endl;
+// }
 
 AMateria::AMateria(std::string const &type) : _type(type)
 {
@@ -35,8 +35,13 @@ std::string const &AMateria::getType() const
 	return this->_type;
 }
 
+void AMateria::setType(std::string const &type)
+{
+	this->_type = type;
+}
+
 void AMateria::use(ICharacter &target)
 {
 	(void)target;
-	std::cout << "AMateria use function called. Type is " << this->_type << std::endl;
+	std::cout << "You should not see this. AMateria use function called. Type is " << this->_type << std::endl;
 }

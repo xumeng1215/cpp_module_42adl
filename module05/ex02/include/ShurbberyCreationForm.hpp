@@ -6,7 +6,7 @@
 
 class Bureaucrat;
 
-class ShrubberyCreationForm : public Aform
+class ShrubberyCreationForm : public AForm
 {
 private:
 	std::string _target;

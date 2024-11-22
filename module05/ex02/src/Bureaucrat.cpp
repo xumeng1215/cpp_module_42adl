@@ -67,11 +67,6 @@ std::ostream &operator<<(std::ostream &out, const Bureaucrat &bureaucrat)
 
 void Bureaucrat::signForm(AForm &form)
 {
-	if (form.getSignGrade() < this->_grade)
-	{
-		std::cout << this->_name << " cannot sign " << form.getName() << " because grade is too low." << std::endl;
-		return;
-	}
 	form.beSigned(*this);
 	std::cout << this->_name << " signs " << form.getName() << "." << std::endl;
 }

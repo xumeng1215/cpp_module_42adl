@@ -5,7 +5,7 @@
 
 class Bureaucrat;
 
-class Aform
+class AForm
 {
 private:
 	const std::string _name;
@@ -14,11 +14,11 @@ private:
 	int _execGrade;
 
 public:
-	Aform();
-	Aform(std::string const &name, int signGrade, int execGrade);
-	~Aform();
-	Aform(const Aform &other);
-	Aform &operator=(const Aform &other);
+	AForm();
+	AForm(std::string const &name, int signGrade, int execGrade);
+	~AForm();
+	AForm(const AForm &other);
+	AForm &operator=(const AForm &other);
 
 	std::string const &getName() const;
 	bool getSigned() const;
@@ -53,7 +53,7 @@ public:
 		};
 	};
 
-	friend std::ostream &operator<<(std::ostream &out, const Aform &form);
+	friend std::ostream &operator<<(std::ostream &out, const AForm &AForm);
 
 	virtual void execute(Bureaucrat const &executor) const = 0;
 };

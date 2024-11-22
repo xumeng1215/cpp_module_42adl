@@ -1,11 +1,11 @@
 #include "RobotomyRequestForm.hpp"
 
-RobotomyRequestForm::RobotomyRequestForm() : Aform("RobotomyRequestForm", 72, 45), _target("default")
+RobotomyRequestForm::RobotomyRequestForm() : AForm("RobotomyRequestForm", 72, 45), _target("default")
 {
 	std::cout << "RobotomyRequestForm " << this->getName() << " is constructed." << std::endl;
 }
 
-RobotomyRequestForm::RobotomyRequestForm(std::string const &target) : Aform("RobotomyRequestForm", 72, 45), _target(target)
+RobotomyRequestForm::RobotomyRequestForm(std::string const &target) : AForm("RobotomyRequestForm", 72, 45), _target(target)
 {
 	std::cout << "RobotomyRequestForm " << this->getName() << " is constructed." << std::endl;
 }
@@ -15,7 +15,7 @@ RobotomyRequestForm::~RobotomyRequestForm()
 	std::cout << "RobotomyRequestForm " << this->getName() << " is destructed." << std::endl;
 }
 
-RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm &other) : Aform(other), _target(other._target)
+RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm &other) : AForm(other), _target(other._target)
 {
 	std::cout << "RobotomyRequestForm " << this->getName() << " is copied." << std::endl;
 }
@@ -32,9 +32,9 @@ RobotomyRequestForm &RobotomyRequestForm::operator=(const RobotomyRequestForm &o
 void RobotomyRequestForm::execute(Bureaucrat const &executor) const
 {
 	if (executor.getGrade() > this->getExecGrade())
-		throw Aform::GradeTooLowException();
+		throw AForm::GradeTooLowException();
 	if (!this->getSigned())
-		throw Aform::FormNotSignedException();
+		throw AForm::FormNotSignedException();
 	std::cout << "*make some drilling noises*" << std::endl;
 	if (rand() % 2)
 		std::cout << this->_target << " has been robotomized successfully." << std::endl;

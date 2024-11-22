@@ -1,31 +1,31 @@
 #include "AForm.hpp"
 #include "Bureaucrat.hpp"
 
-Aform::Aform() : _name("default"), _signed(false), _signGrade(150), _execGrade(150)
+AForm::AForm() : _name("default"), _signed(false), _signGrade(150), _execGrade(150)
 {
 	std::cout << "Form " << this->_name << " is constructed." << std::endl;
 }
 
-Aform::Aform(std::string const &name, int signGrade, int execGrade) : _name(name), _signed(false), _signGrade(signGrade), _execGrade(execGrade)
+AForm::AForm(std::string const &name, int signGrade, int execGrade) : _name(name), _signed(false), _signGrade(signGrade), _execGrade(execGrade)
 {
 	if (signGrade < 1 || execGrade < 1)
-		throw Aform::GradeTooHighException();
+		throw AForm::GradeTooHighException();
 	if (signGrade > 150 || execGrade > 150)
-		throw Aform::GradeTooLowException();
+		throw AForm::GradeTooLowException();
 	std::cout << "Form " << this->_name << " is constructed." << std::endl;
 }
 
-Aform::~Aform()
+AForm::~AForm()
 {
 	std::cout << "Form " << this->_name << " is destructed." << std::endl;
 }
 
-Aform::Aform(const Aform &other) : _name(other._name), _signed(other._signed), _signGrade(other._signGrade), _execGrade(other._execGrade)
+AForm::AForm(const AForm &other) : _name(other._name), _signed(other._signed), _signGrade(other._signGrade), _execGrade(other._execGrade)
 {
 	std::cout << "Form " << this->_name << " is copied." << std::endl;
 }
 
-Aform &Aform::operator=(const Aform &other)
+AForm &AForm::operator=(const AForm &other)
 {
 	if (this == &other)
 		return *this;
@@ -34,27 +34,27 @@ Aform &Aform::operator=(const Aform &other)
 	return *this;
 }
 
-std::string const &Aform::getName() const
+std::string const &AForm::getName() const
 {
 	return this->_name;
 }
 
-bool Aform::getSigned() const
+bool AForm::getSigned() const
 {
 	return this->_signed;
 }
 
-int Aform::getSignGrade() const
+int AForm::getSignGrade() const
 {
 	return this->_signGrade;
 }
 
-int Aform::getExecGrade() const
+int AForm::getExecGrade() const
 {
 	return this->_execGrade;
 }
 
-std::ostream &operator<<(std::ostream &out, const Aform &form)
+std::ostream &operator<<(std::ostream &out, const AForm &form)
 {
 	out << "Form " << form.getName() << " is ";
 	if (form.getSigned())
@@ -65,9 +65,9 @@ std::ostream &operator<<(std::ostream &out, const Aform &form)
 	return out;
 }
 
-void Aform::beSigned(Bureaucrat &bureaucrat)
+void AForm::beSigned(Bureaucrat &bureaucrat)
 {
 	if (bureaucrat.getGrade() > this->_signGrade)
-		throw Aform::GradeTooLowException();
+		throw AForm::GradeTooLowException();
 	this->_signed = true;
 }

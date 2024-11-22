@@ -21,5 +21,3 @@ public:
 	virtual AMateria *clone() const = 0;
 	virtual void use(ICharacter &target);
 };
-
-

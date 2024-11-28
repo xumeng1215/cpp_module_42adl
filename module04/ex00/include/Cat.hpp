@@ -4,7 +4,9 @@
 class Cat : public Animal
 {
 public:
-	Cat(/* args */);
+	// orthodox canonical form
+	// constructor, destructor, copy constructor and operator=
+	Cat();
 	~Cat();
 	Cat(const Cat &other);
 	Cat &operator=(const Cat &other);

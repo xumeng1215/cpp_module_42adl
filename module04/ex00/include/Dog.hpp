@@ -4,7 +4,7 @@
 class Dog : public Animal
 {
 public:
-	Dog(/* args */);
+	Dog();
 	~Dog();
 	Dog(const Dog &other);
 	Dog &operator=(const Dog &other);

@@ -4,7 +4,7 @@
 class WrongCat : public WrongAnimal
 {
 public:
-	WrongCat(/* args */);
+	WrongCat();
 	~WrongCat();
 	WrongCat(const WrongCat &other);
 	WrongCat &operator=(const WrongCat &other);

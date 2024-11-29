@@ -13,11 +13,11 @@ private:
 	float _float;
 	double _double;
 	
-	// ScalarConverter();
-	// ~ScalarConverter();
-	// ScalarConverter(std::string const &input);
-	// ScalarConverter(const ScalarConverter &other);
-	// ScalarConverter &operator=(const ScalarConverter &other);
+	ScalarConverter();
+	~ScalarConverter();
+	ScalarConverter(std::string const &input);
+	ScalarConverter(const ScalarConverter &other);
+	ScalarConverter &operator=(const ScalarConverter &other);
 public:
 	static void convert(std::string const &input);
 };

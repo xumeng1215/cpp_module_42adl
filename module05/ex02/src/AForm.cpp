@@ -71,3 +71,18 @@ void AForm::beSigned(Bureaucrat &bureaucrat)
 		throw AForm::GradeTooLowException();
 	this->_signed = true;
 }
+
+const char *AForm::GradeTooHighException::what() const throw()
+{
+	return "Grade is too high.";
+}
+
+const char *AForm::GradeTooLowException::what() const throw()
+{
+	return "Grade is too low.";
+}
+
+const char *AForm::FormNotSignedException::what() const throw()
+{
+	return "Form is not signed.";
+}

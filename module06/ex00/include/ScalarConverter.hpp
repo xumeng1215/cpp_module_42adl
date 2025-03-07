@@ -6,12 +6,6 @@ class ScalarConverter
 {
 private:
 	std::string _input;
-	int _type;
-	
-	char _char;
-	int _int;
-	float _float;
-	double _double;
 	
 	ScalarConverter();
 	~ScalarConverter();

@@ -11,12 +11,14 @@ OBJS = $(SRCS:.cpp=.o)
 
 EXEC = test
 
+DEPS = $(wildcard $(INC_DIR)/*.hpp $(INC_DIR)/*.tpp)
+
 all: $(EXEC)
 
 $(EXEC): $(OBJS)
 	$(CXX) $(OBJS) -o $@
 
-%.o: %.cpp
+%.o: %.cpp $(DEPS)
 	$(CXX) $(CXXFLAGS) -I $(INC_DIR) -c $< -o $@
 
 clean:

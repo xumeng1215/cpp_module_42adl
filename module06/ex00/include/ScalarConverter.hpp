@@ -29,19 +29,16 @@ enum scalarType
 class ScalarConverter
 {
 private:
-	
 	const std::string _input;
-	
+
 	ScalarConverter();
 	~ScalarConverter();
 	ScalarConverter(std::string const &input);
 	ScalarConverter(const ScalarConverter &other);
 	ScalarConverter &operator=(const ScalarConverter &other);
 
-	
-	public:
+public:
 	static void convert(std::string const &input);
-	
 };
 
 scalarType getType(const std::string &str);

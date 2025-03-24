@@ -26,8 +26,8 @@ static bool isInt(const std::string &input)
 	if (input[i] == '+' || input[i] == '-')
 		i++;
 
-		if (i == input.length()) // No digits after the sign
-        return false;
+	if (i == input.length()) // No digits after the sign
+		return false;
 
 	// Iterate through the string
 	while (i < input.length())
@@ -108,65 +108,65 @@ static bool isDouble(const std::string &input)
 
 static bool isFloat(const std::string &input)
 {
-    size_t i = 0;
-    int dot = 0;
-    int exp = 0;
+	size_t i = 0;
+	int dot = 0;
+	int exp = 0;
 
-    // Check for empty input
-    if (input.empty())
-        return false;
+	// Check for empty input
+	if (input.empty())
+		return false;
 
-    // Check for optional '+' or '-' sign
-    if (input[i] == '+' || input[i] == '-')
-        i++;
+	// Check for optional '+' or '-' sign
+	if (input[i] == '+' || input[i] == '-')
+		i++;
 
-    // Ensure at least one digit is present before 'e' or 'E'
-    bool hasDigits = false;
+	// Ensure at least one digit is present before 'e' or 'E'
+	bool hasDigits = false;
 
-    // Iterate through the string
-    while (i < input.length() - 1) // Exclude the last character ('f')
-    {
-        if (input[i] == '.')
-        {
-            // Increment dot counter for each '.'
-            if (exp > 0) // '.' cannot appear after 'e' or 'E'
-                return false;
-            dot++;
-        }
-        else if (input[i] == 'e' || input[i] == 'E')
-        {
-            // Increment exp counter for each 'e' or 'E'
-            if (exp > 0 || !hasDigits) // Multiple 'e' or no digits before 'e'
-                return false;
-            exp++;
-            hasDigits = false; // Reset digit check for the exponent part
+	// Iterate through the string
+	while (i < input.length() - 1) // Exclude the last character ('f')
+	{
+		if (input[i] == '.')
+		{
+			// Increment dot counter for each '.'
+			if (exp > 0) // '.' cannot appear after 'e' or 'E'
+				return false;
+			dot++;
+		}
+		else if (input[i] == 'e' || input[i] == 'E')
+		{
+			// Increment exp counter for each 'e' or 'E'
+			if (exp > 0 || !hasDigits) // Multiple 'e' or no digits before 'e'
+				return false;
+			exp++;
+			hasDigits = false; // Reset digit check for the exponent part
 
-            // Check for optional '+' or '-' after 'e' or 'E'
-            if (i + 1 < input.length() - 1 && (input[i + 1] == '+' || input[i + 1] == '-'))
-                i++;
-        }
-        else if (std::isdigit(input[i]))
-        {
-            // Mark that we have encountered a digit
-            hasDigits = true;
-        }
-        else
-        {
-            // Invalid character found
-            return false;
-        }
-        i++;
-    }
+			// Check for optional '+' or '-' after 'e' or 'E'
+			if (i + 1 < input.length() - 1 && (input[i + 1] == '+' || input[i + 1] == '-'))
+				i++;
+		}
+		else if (std::isdigit(input[i]))
+		{
+			// Mark that we have encountered a digit
+			hasDigits = true;
+		}
+		else
+		{
+			// Invalid character found
+			return false;
+		}
+		i++;
+	}
 
-    // Ensure the last character is 'f'
-    if (input[i] != 'f')
-        return false;
+	// Ensure the last character is 'f'
+	if (input[i] != 'f')
+		return false;
 
-    // Ensure there is at most one dot, at most one 'e', and at least one digit
-    if (dot > 1 || exp > 1 || !hasDigits)
-        return false;
+	// Ensure there is at most one dot, at most one 'e', and at least one digit
+	if (dot > 1 || exp > 1 || !hasDigits)
+		return false;
 
-    return true;
+	return true;
 }
 
 scalarType getType(const std::string &str)

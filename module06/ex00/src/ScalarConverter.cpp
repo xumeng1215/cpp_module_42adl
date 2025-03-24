@@ -7,31 +7,52 @@ void ScalarConverter::convert(std::string const &input)
 	switch (type)
 	{
 	case NAN_:
-		std::cout << "Type is NAN." << std::endl;
 		put_nan(input);
 		break;
 	case INF:
-		std::cout << "Type is INF." << std::endl;
 		put_inf(input);
 		break;
 	case CHAR:
-		std::cout << "Type is CHAR." << std::endl;
 		put_char(input);
 		break;
 	case INT:
-		std::cout << "Type is INT." << std::endl;
 		put_int(input);
 		break;
 	case FLOAT:
-		std::cout << "Type is FLOAT." << std::endl;
 		put_float(input);
 		break;
 	case DOUBLE:
-		std::cout << "Type is DOUBLE." << std::endl;
 		put_double(input);
 		break;
 	case INVALID:
-		std::cout << "Invalid value. Try again." << std::endl;
+		std::cout << "Invalid input value. Try again." << std::endl;
 		break;
 	}
+}
+
+ScalarConverter::ScalarConverter() : _input("")
+{
+	std::cout << "Default constructor called" << std::endl;
+}
+
+ScalarConverter::ScalarConverter(std::string const &input) : _input(input)
+{
+	std::cout << "Parameter Constructor called" << std::endl;
+}
+
+ScalarConverter::~ScalarConverter()
+{
+	std::cout << "Destructor called" << std::endl;
+}
+
+ScalarConverter::ScalarConverter(const ScalarConverter &other) : _input(other._input)
+{
+	std::cout << "Copy constructor called" << std::endl;
+}
+
+ScalarConverter &ScalarConverter::operator=(const ScalarConverter &other)
+{
+	(void)other;
+	std::cout << "Assignment operator called" << std::endl;
+	return *this;
 }

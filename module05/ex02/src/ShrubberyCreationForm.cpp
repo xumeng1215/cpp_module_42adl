@@ -36,7 +36,7 @@ void ShrubberyCreationForm::execute(Bureaucrat const &executor) const
 		throw AForm::GradeTooLowException();
 	if(!this->getSigned())
 		throw AForm::FormNotSignedException();
-	std::ofstream file(this->_target + "_shrubbery");
+	std::ofstream file((this->_target + "_shrubbery").c_str());
 	if (!file.is_open())
 		throw std::runtime_error("File open failed.");
 	file << "ASCII trees ########" << std::endl;

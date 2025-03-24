@@ -21,8 +21,6 @@ public:
 	void incrementGrade();
 	void decrementGrade();
 
-	friend std::ostream &operator<<(std::ostream &out, const Bureaucrat &bureaucrat);
-
 	class GradeTooHighException : public std::exception
 	{
 	public:
@@ -39,3 +37,5 @@ public:
 
 	void executeForm(AForm const &form);
 };
+
+std::ostream &operator<<(std::ostream &out, const Bureaucrat &bureaucrat);

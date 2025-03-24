@@ -21,21 +21,22 @@ public:
 	void incrementGrade();
 	void decrementGrade();
 
-	friend std::ostream &operator<<(std::ostream &out, const Bureaucrat &bureaucrat);
-
+	
 	class GradeTooHighException : public std::exception
 	{
-	public:
+		public:
 		virtual const char *what() const throw();
 	};
-
+	
 	class GradeTooLowException : public std::exception
 	{
-	public:
+		public:
 		virtual const char *what() const throw();
 	};
-
+	
 	void signForm(AForm &form);
-
+	
 	void executeForm(AForm const &form);
 };
+
+std::ostream &operator<<(std::ostream &out, const Bureaucrat &bureaucrat);

@@ -3,6 +3,7 @@
 #include <string>
 #include "Bureaucrat.hpp"
 #include "AForm.hpp"
+#include <cstdlib>
 
 class Bureaucrat;
 

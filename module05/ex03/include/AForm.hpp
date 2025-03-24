@@ -44,7 +44,7 @@ public:
 		virtual const char *what() const throw();
 	};
 
-	friend std::ostream &operator<<(std::ostream &out, const AForm &AForm);
-
-	virtual void execute(Bureaucrat const &executor) const = 0;
+		virtual void execute(Bureaucrat const &executor) const = 0;
 };
+
+std::ostream &operator<<(std::ostream &out, const AForm &AForm);

@@ -66,3 +66,13 @@ std::ostream &operator<<(std::ostream &out, const Form &form)
 	out << "Form " << form.getName() << " is " << (form.getSigned() ? "" : "not ") << "signed.";
 	return out;
 }
+
+const char *Form::GradeTooHighException::what() const throw()
+{
+	return "Grade is too high.";
+}
+
+const char *Form::GradeTooLowException::what() const throw()
+{
+	return "Grade is too low.";
+}

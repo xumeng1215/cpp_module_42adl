@@ -11,11 +11,11 @@ int main()
 	std::cout << "Key: " << data->key << std::endl;
 	std::cout << "Value: " << data->value << std::endl;
 
-	Serializer a;
-	uintptr_t serialized = a.serialize(data);
+	uintptr_t serialized = Serializer::serialize(data);
 	std::cout << "Serialized to uintptr_t: " << serialized << std::endl;
 
-	Data *deserialized = a.deserialize(serialized);
+
+	Data *deserialized = Serializer::deserialize(serialized);
 	std::cout << "Key: " << deserialized->key << std::endl;
 	std::cout << "Value: " << deserialized->value << std::endl;
 

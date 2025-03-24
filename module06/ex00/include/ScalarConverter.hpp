@@ -7,6 +7,14 @@
 #include <cmath>
 #include <cstdlib>
 
+#include <limits.h>
+#include <cfloat>
+#include <string>
+
+#include <cmath>
+#include <limits>
+#include <iostream>
+
 enum scalarType
 {
 	NAN_,
@@ -35,3 +43,11 @@ private:
 	static void convert(std::string const &input);
 	
 };
+
+scalarType getType(const std::string &str);
+void put_nan(const std::string &input);
+void put_inf(const std::string &input);
+void put_char(const std::string &input);
+void put_int(const std::string &input);
+void put_float(const std::string &input);
+void put_double(const std::string &input);

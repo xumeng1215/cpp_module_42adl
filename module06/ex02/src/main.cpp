@@ -5,6 +5,8 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
+#include <typeinfo>
 
 static Base *generate()
 {
@@ -20,7 +22,7 @@ static Base *generate()
 		return (new C());
 		break;
 	default:
-		perror("Something went wrong.");
+		std::cerr<< "Something went wrong." << std::endl;
 		return (NULL);
 	}
 }
@@ -49,7 +51,7 @@ static void identify(Base &p)
 	}
 	catch (std::bad_cast &bc)
 	{
-		std::cerr << bc.what() << "NOT A" << std::endl;
+		std::cerr << bc.what() << " NOT A" << std::endl;
 	}
 	try
 	{
@@ -59,7 +61,7 @@ static void identify(Base &p)
 	}
 	catch (std::bad_cast &bc)
 	{
-		std::cerr << bc.what() << "NOT B" << std::endl;
+		std::cerr << bc.what() << " NOT B" << std::endl;
 	}
 	try
 	{
@@ -69,7 +71,7 @@ static void identify(Base &p)
 	}
 	catch (std::bad_cast &bc)
 	{
-		std::cerr << bc.what() << "NOT C" << std::endl;
+		std::cerr << bc.what() << " NOT C" << std::endl;
 	}
 }
 

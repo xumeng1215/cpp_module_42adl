@@ -9,7 +9,7 @@ SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 
 OBJS = $(SRCS:.cpp=.o)
 
-EXEC = convert
+EXEC = test
 
 all: $(EXEC)
 

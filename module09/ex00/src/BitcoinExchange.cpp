@@ -1,4 +1,5 @@
 #include "BitcoinExchange.hpp"
+#include <string>
 
 BitcoinExchange::BitcoinExchange()
 {
@@ -26,7 +27,7 @@ BitcoinExchange::BitcoinExchange()
 		double rate;
 		try
 		{
-			rate = std::stod(line.substr(pos + 1));
+			rate = std::atof(line.substr(pos + 1).c_str());
 		}
 		catch (const std::exception &e)
 		{
@@ -72,9 +73,9 @@ static bool isValidDate(const std::string &date)
 	int year, month, day;
 	try
 	{
-		year = std::stoi(date.substr(0, 4));
-		month = std::stoi(date.substr(5, 2));
-		day = std::stoi(date.substr(8, 2));
+		year = std::atoi(date.substr(0, 4).c_str());
+		month = std::atoi(date.substr(5, 2).c_str());
+		day = std::atoi(date.substr(8, 2).c_str());
 	}
 	catch (const std::exception &e)
 	{
@@ -117,7 +118,7 @@ static bool isValidValue(const std::string &value_str, double &value)
 {
 	try
 	{
-		value = std::stod(value_str);
+		value = std::atof(value_str.c_str());
 	}
 	catch (const std::exception &e)
 	{
@@ -142,7 +143,7 @@ static bool isValidValue(const std::string &value_str, double &value)
 
 void BitcoinExchange::readFile(const std::string &inputfile)
 {
-	std::ifstream file(inputfile);
+	std::ifstream file(inputfile.c_str());
 	if (!file.is_open())
 	{
 		std::cerr << "Error: file not found" << std::endl;

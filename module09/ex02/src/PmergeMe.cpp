@@ -81,10 +81,7 @@ std::deque<int> PmergeMe::parseInputToDeque(int ac, char **av)
 		// Validate and convert input to integers
 		std::istringstream iss(arg);
 		if (!(iss >> num) || !iss.eof())
-		{
 			throw std::invalid_argument("Invalid input: " + arg);
-		}
-
 		numbers.push_back(num);
 	}
 
@@ -98,7 +95,7 @@ void PmergeMe::fordJohnsonSort(Container &numbers)
 		return;
 
 	// Step 1: Pair the numbers
-	std::vector<std::pair<int, int>> pairs;
+	std::vector<std::pair<int, int> > pairs;
 	typename Container::iterator it = numbers.begin();
 	while (it != numbers.end())
 	{
@@ -121,7 +118,7 @@ void PmergeMe::fordJohnsonSort(Container &numbers)
 
 	// Step 2: Sort the larger elements of the pairs
 	Container largerElements;
-	for (typename std::vector<std::pair<int, int>>::iterator pairIt = pairs.begin(); pairIt != pairs.end(); ++pairIt)
+	for (typename std::vector<std::pair<int, int> >::iterator pairIt = pairs.begin(); pairIt != pairs.end(); ++pairIt)
 	{
 		largerElements.push_back(pairIt->second);
 	}
@@ -136,16 +133,16 @@ void PmergeMe::fordJohnsonSort(Container &numbers)
 }
 
 template <typename Container>
-void PmergeMe::mergePairs(std::vector<std::pair<int, int>> &pairs, Container &result)
+void PmergeMe::mergePairs(std::vector<std::pair<int, int> > &pairs, Container &result)
 {
 	// Extract the larger elements (already sorted)
-	for (typename std::vector<std::pair<int, int>>::iterator it = pairs.begin(); it != pairs.end(); ++it)
+	for (typename std::vector<std::pair<int, int> >::iterator it = pairs.begin(); it != pairs.end(); ++it)
 	{
 		result.push_back(it->second);
 	}
 
 	// Insert the smaller elements into the correct positions
-	for (typename std::vector<std::pair<int, int>>::iterator it = pairs.begin(); it != pairs.end(); ++it)
+	for (typename std::vector<std::pair<int, int> >::iterator it = pairs.begin(); it != pairs.end(); ++it)
 	{
 		typename Container::iterator insertPos = std::lower_bound(result.begin(), result.end(), it->first);
 		result.insert(insertPos, it->first);

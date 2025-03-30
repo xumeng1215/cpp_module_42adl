@@ -9,7 +9,7 @@ SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 
 OBJS = $(SRCS:.cpp=.o)
 
-EXEC = test
+EXEC = PmergeMe
 
 all: $(EXEC)
 

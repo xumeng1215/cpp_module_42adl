@@ -1,12 +1,13 @@
 #include "BitcoinExchange.hpp"
 #include <string>
 
+// load the exchange rates from the CSV file while constructing the object
 BitcoinExchange::BitcoinExchange()
 {
 	std::ifstream file("./data.csv");
 	if (!file.is_open())
 	{
-		std::cerr << "Error: file not found" << std::endl;
+		std::cerr << "Can't open data.csv." << std::endl;
 		exit(1);
 	}
 	std::string line;
@@ -19,7 +20,7 @@ BitcoinExchange::BitcoinExchange()
 		size_t pos = line.find(',');
 		if (pos == std::string::npos)
 		{
-			std::cerr << "Error: invalid line format" << std::endl;
+			std::cerr << "Invalid line format." << std::endl;
 			continue;
 		}
 		std::string date = line.substr(0, pos);
@@ -31,13 +32,13 @@ BitcoinExchange::BitcoinExchange()
 		}
 		catch (const std::exception &e)
 		{
-			std::cerr << e.what() << std::endl;
-			std::cerr << "Error: invalid exchange rate format" << std::endl;
+			// std::cerr << e.what() << std::endl;
+			std::cerr << "Invalid exchange rate format." << std::endl;
 			continue;
 		}
-		this->_exchangeRates.insert(std::make_pair(date, rate));
 		// std::cout << std::make_pair(date, rate).first << std::endl;
 		// std::cout << std::make_pair(date, rate).second << std::endl;
+		this->_exchangeRates.insert(std::make_pair(date, rate));
 	}
 	file.close();
 }
@@ -65,7 +66,7 @@ static bool isValidDate(const std::string &date)
 	// Check basic format (yyyy-mm-dd)
 	if (date.size() != 10 || date[4] != '-' || date[7] != '-')
 	{
-		std::cerr << "Error: invalid date format: " << date << std::endl;
+		std::cerr << "Invalid date format: " << date << std::endl;
 		return false;
 	}
 
@@ -79,19 +80,19 @@ static bool isValidDate(const std::string &date)
 	}
 	catch (const std::exception &e)
 	{
-		std::cerr << "Error: invalid date components: " << date << std::endl;
+		std::cerr << "Invalid year month or day numbers: " << date << std::endl;
 		return false;
 	}
 
 	if (month < 1 || month > 12)
 	{
-		std::cerr << "Error: invalid month in date: " << date << std::endl;
+		std::cerr << "Invalid month in date: " << date << std::endl;
 		return false;
 	}
 
 	if (day < 1 || day > 31)
 	{
-		std::cerr << "Error: invalid day in date: " << date << std::endl;
+		std::cerr << "Invalid day in date: " << date << std::endl;
 		return false;
 	}
 
@@ -107,7 +108,7 @@ static bool isValidDate(const std::string &date)
 
 	if (day > maxDays)
 	{
-		std::cerr << "Error: invalid day for the given month and year: " << date << std::endl;
+		std::cerr << "Invalid day in date: " << date << std::endl;
 		return false;
 	}
 
@@ -122,26 +123,26 @@ static bool isValidValue(const std::string &value_str, double &value)
 	}
 	catch (const std::exception &e)
 	{
-		std::cerr << "Error: invalid value format." << std::endl;
+		std::cerr << "Invalid value format: " << value << std::endl;
 		return false;
 	}
 
 	if (value < 0)
 	{
-		std::cerr << "Error: not a positive number." << std::endl;
+		std::cerr << "Value must be a positive number: " << value << std::endl;
 		return false;
 	}
 
 	if (value > 1000)
 	{
-		std::cerr << "Error: too large a number." << std::endl;
+		std::cerr << "Value number is too large: " << value << std::endl;
 		return false;
 	}
 
 	return true;
 }
 
-void BitcoinExchange::readFile(const std::string &inputfile)
+void BitcoinExchange::processInput(const std::string &inputfile)
 {
 	std::ifstream file(inputfile.c_str());
 	if (!file.is_open())

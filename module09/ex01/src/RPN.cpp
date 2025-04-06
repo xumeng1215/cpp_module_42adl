@@ -47,11 +47,13 @@ void RPN::calculate(const std::string &expression)
 	_stack.pop();
 }
 
+// operators: +, -, *, /
 bool RPN::isOperator(std::string token) const
 {
 	return token.size() == 1 && (token[0] == '+' || token[0] == '-' || token[0] == '*' || token[0] == '/');
 }
 
+// numbers should be integers, or with a leading '-'
 bool RPN::isNumber(std::string token) const
 {
 	if (token.empty())
@@ -61,7 +63,7 @@ bool RPN::isNumber(std::string token) const
 	if (token[0] == '-')
 		i++;
 
-	while(i < token.size())
+	while (i < token.size())
 	{
 		if (!std::isdigit(token[i]))
 			return false;
@@ -96,7 +98,7 @@ void RPN::performOperation(char op)
 		result = a / b;
 		break;
 	default:
-		throw std::runtime_error("unknown operator");
+		throw std::runtime_error("unknown operator"); // should never happen
 	}
 
 	_stack.push(result);

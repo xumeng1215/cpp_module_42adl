@@ -13,18 +13,21 @@
 class PmergeMe
 {
 public:
-    PmergeMe();
-    ~PmergeMe();
+	PmergeMe();
+	~PmergeMe();
 
-    void merge(int ac, char **av);
+	void merge(int ac, char **av);
 
 private:
-    std::vector<int> parseInputToVector(int ac, char **av);
-    std::deque<int> parseInputToDeque(int ac, char **av);
+	template <typename Container>
+	Container parseInputToContainer(int ac, char **av);
 
-    template <typename Container>
-    void fordJohnsonSort(Container &numbers);
+	template <typename Container>
+	void fordJohnsonSort(Container &numbers);
 
-    template <typename Container>
-    void mergePairs(std::vector<std::pair<int, int> > &pairs, Container &result);
+	template <typename Container>
+	void mergePairs(std::vector<std::pair<int, int> > &pairs, Container &result);
+
+	template <typename Container>
+	void outputContainer(const Container &result);
 };

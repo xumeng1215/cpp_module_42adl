@@ -10,17 +10,17 @@
 class RPN
 {
 public:
-    RPN();
-    ~RPN();
+	RPN();
+	~RPN();
 	RPN(const RPN &other);
 	RPN &operator=(const RPN &other);
 
-    void calculate(const std::string &expression);
+	void calculate(const std::string &expression);
 
 private:
-    std::stack<int> _stack;
+	std::stack<int> _stack;
 
-    bool isOperator(std::string token) const;
+	bool isOperator(std::string token) const;
 	bool isNumber(std::string token) const;
-    void performOperation(char op);
+	void performOperation(char op);
 };

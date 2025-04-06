@@ -8,7 +8,6 @@
 #include <sstream>
 #include <cstdlib>
 
-
 class BitcoinExchange
 {
 public:
@@ -17,7 +16,7 @@ public:
 	BitcoinExchange(const BitcoinExchange &other);
 	BitcoinExchange &operator=(const BitcoinExchange &other);
 
-	void readFile(const std::string &fileName);
+	void processInput(const std::string &fileName);
 
 private:
 	std::map<std::string, double> _exchangeRates;

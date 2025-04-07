@@ -60,9 +60,6 @@ bool RPN::isNumber(std::string token) const
 		return false;
 
 	size_t i = 0;
-	if (token[0] == '-')
-		i++;
-
 	while (i < token.size())
 	{
 		if (!std::isdigit(token[i]))

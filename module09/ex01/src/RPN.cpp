@@ -53,7 +53,7 @@ bool RPN::isOperator(std::string token) const
 	return token.size() == 1 && (token[0] == '+' || token[0] == '-' || token[0] == '*' || token[0] == '/');
 }
 
-// numbers should be integers, or with a leading '-'
+// numbers should be integers
 bool RPN::isNumber(std::string token) const
 {
 	if (token.empty())

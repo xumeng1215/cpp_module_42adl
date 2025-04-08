@@ -12,7 +12,7 @@ int main(int ac, char **av)
 		try
 		{
 			PmergeMe pmergeMe;
-			pmergeMe.merge(ac, av);
+			pmergeMe.processInput(ac, av);
 		}
 		catch (const std::exception &e)
 		{

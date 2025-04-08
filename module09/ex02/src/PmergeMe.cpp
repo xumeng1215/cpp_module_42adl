@@ -4,35 +4,102 @@ PmergeMe::PmergeMe() {}
 
 PmergeMe::~PmergeMe() {}
 
-void PmergeMe::merge(int ac, char **av)
+static void output_list(std::list<int> &result)
 {
-	// Parse input into a vector and a deque
-	std::vector<int> numbersVector = parseInputToContainer<std::vector<int> >(ac, av);
-	std::deque<int> numbersDeque = parseInputToContainer<std::deque<int> >(ac, av);
+	std::cout << "List container: ";
+	std::list<int>::iterator it = result.begin();
+	while (it != result.end())
+	{
+		std::cout << *it;
+		++it;
+		if (it!= result.end())
+			std::cout << " ";
+	}
+	std::cout << std::endl;
+}
 
+static void output_deque(std::deque<int> &result)
+{
+	std::cout << "Deque container: ";
+	size_t i = 0;
+	while (i < result.size())
+	{
+		std::cout << result[i];
+		++i;
+		if (i < result.size())
+			std::cout << " ";
+	}
+	std::cout << std::endl;
+}
+
+static std::vector<size_t> getInsertSequence(size_t pendSize)
+{
+	std::vector<size_t> sequence;
+	if (pendSize == 0)
+		return sequence;
+
+	std::vector<size_t> jacobsthal;
+	jacobsthal.push_back(0); // J(0) is always 0
+	if (pendSize >= 1)
+		jacobsthal.push_back(1); // if pendSize >= 1, J(1) is 1
+
+	// Continue generating Jacobsthal numbers until exceeding pendSize
+	size_t next;
+	while (true)
+	{
+		next = jacobsthal.back() + 2 * jacobsthal[jacobsthal.size() - 2];
+		if (next > pendSize)
+			break;
+		jacobsthal.push_back(next);
+	}
+
+	// Generate sequence using Jacobsthal numbers (starting from J(2))
+	for (size_t i = 1; i < jacobsthal.size(); ++i)
+	{
+		// Insert elements between J(i-1) and J(i) in reverse order as insertion indexes
+		for (size_t j = jacobsthal[i]; j > jacobsthal[i - 1]; --j)
+		{
+			if (j - 1 < pendSize)
+				sequence.push_back(j - 1);
+		}
+	}
+
+	// Add any remaining elements not covered by Jacobsthal numbers
+	for (size_t j = jacobsthal.back() + 1; j <= pendSize; ++j)
+	{
+		sequence.push_back(j - 1);
+	}
+
+	return sequence;
+}
+
+void PmergeMe::processInput(int ac, char **av)
+{
+	// Parse input into a deque and a list
+	// deque have random access while list doesn't
+	std::deque<int> d = parseInputToContainer<std::deque<int> >(ac, av);
+	std::list<int> l = parseInputToContainer<std::list<int> >(ac, av);
 	std::clock_t t1, t2;
-	// Sort using std::vector and measure time
-	t1 = std::clock();
-	fordJohnsonSort(numbersVector);
-	t2 = std::clock();
-	double elapsedVector = 1000.0 * (t2 - t1) / CLOCKS_PER_SEC;
+	
+	output_deque(d);
+	output_list(l);
 
 	// Sort using std::deque and measure time
 	t1 = std::clock();
-	fordJohnsonSort(numbersDeque);
+	fjsort_deque(d);
 	t2 = std::clock();
 	double elapsedDeque = 1000.0 * (t2 - t1) / CLOCKS_PER_SEC;
 
-	// Output the sorted numbers for std::vector
-	std::cout << "Sorted numbers (vector): ";
-	outputContainer(numbersVector);
-	std::cout << "Time taken (vector): " << elapsedVector << " ms" << std::endl;
+	// Sort using std::list and measure time
+	t1 = std::clock();
+	fjsort_list(l);
+	t2 = std::clock();
+	double elapsedList = 1000.0 * (t2 - t1) / CLOCKS_PER_SEC;
 
-	// Output the sorted numbers for std::deque
-	std::cout << "Sorted numbers (deque): ";
-	outputContainer(numbersDeque);
+	output_deque(d);
+	output_list(l);
 	std::cout << "Time taken (deque): " << elapsedDeque << " ms" << std::endl;
-
+	std::cout << "Time taken (list): " << elapsedList << " ms" << std::endl;
 }
 
 template <typename Container>
@@ -54,93 +121,89 @@ Container PmergeMe::parseInputToContainer(int ac, char **av)
 	return numbers;
 }
 
-template <typename Container>
-void PmergeMe::outputContainer(const Container &result)
+void PmergeMe::fjsort_deque(std::deque<int> &numbers)
 {
-	for (typename Container::const_iterator it = result.begin(); it != result.end(); ++it)
-	{
-		std::cout << *it;
-		if (it + 1 != result.end())
-			std::cout << " ";
-	}
-	std::cout << std::endl;
-}
-
-template <typename Container>
-void PmergeMe::fordJohnsonSort(Container &numbers)
-{
-	bool unpaired_flag = false;
-	int last_element = 0;
-
 	if (numbers.size() <= 1)
 		return;
+	
+	// SPLIT THE NUMBERS INTO MAIN CHAIN AND PENDING ELEMENTS
+	std::deque<int> mainChain, pend;
+	bool isOdd = numbers.size() % 2 != 0;
 
-	// Step 1: Pair the numbers
-	std::vector<std::pair<int, int> > pairs;
-	typename Container::iterator it = numbers.begin();
-	while (it != numbers.end())
+	for (size_t i = 0; i < numbers.size() - isOdd; i += 2)
 	{
-		int first = *it;
-		++it;
-		if (it != numbers.end())
+		if (numbers[i] < numbers[i + 1])
 		{
-			int second = *it;
-			++it;
-			if (first > second)
-				pairs.push_back(std::make_pair(second, first));
-			else
-				pairs.push_back(std::make_pair(first, second));
+			mainChain.push_back(numbers[i + 1]);
+			pend.push_back(numbers[i]);
 		}
 		else
 		{
-			// Handle the case where there is an odd number of elements
-			unpaired_flag = true;
-			last_element = first;
+			mainChain.push_back(numbers[i]);
+			pend.push_back(numbers[i + 1]);
 		}
 	}
+	if (isOdd) // If the size is odd, add the last element to pend
+		pend.push_back(numbers.back());
 
-	// Step 2: Sort the larger elements of the pairs
-	Container largerElements;
-	for (typename std::vector<std::pair<int, int> >::iterator pairIt = pairs.begin(); pairIt != pairs.end(); ++pairIt)
-		largerElements.push_back(pairIt->second);
-	std::sort(largerElements.begin(), largerElements.end());
+	// RECURSIVE SORTING THE MAIN CHAIN
+	fjsort_deque(mainChain);
 
-	// std::cout << "Larger elements: ";
-	// outputContainer(largerElements);
+	// ADD PENDING ELEMENTS
+	if (pend.empty())
+		return;
 
-	// Step 3: Merge the smaller elements into the sorted larger elements
-	Container result;
-	mergePairs(pairs, result);
-
-	// std::cout << "Merged pairs: ";
-	// outputContainer(result);
-
-	// Step 3.5: If there was an unpaired element, insert it into the correct position
-	if (unpaired_flag)
+	// Generate the insertion sequence using Jacobsthal numbers
+	std::vector<size_t> insertSequence = getInsertSequence(pend.size());
+	for (size_t i = 0; i < insertSequence.size(); ++i)
 	{
-		typename Container::iterator insertPos = std::lower_bound(result.begin(), result.end(), last_element);
-		result.insert(insertPos, last_element);
+		std::deque<int>::iterator insertPosition = std::lower_bound(mainChain.begin(), mainChain.end(), pend[insertSequence[i]]);
+		mainChain.insert(insertPosition, pend[insertSequence[i]]);
 	}
-
-	// Step 4: Replace the original numbers with the sorted result
-	numbers = result;
+	numbers = mainChain;
 }
 
-template <typename Container>
-void PmergeMe::mergePairs(std::vector<std::pair<int, int> > &pairs, Container &result)
+void PmergeMe::fjsort_list(std::list<int> &numbers)
 {
-	// Extract the larger elements (already sorted)
-	for (typename std::vector<std::pair<int, int> >::iterator it = pairs.begin(); it != pairs.end(); ++it)
-	{
-		result.push_back(it->second);
-		// outputContainer(result);
-	}
+	if (numbers.size() <= 1)
+		return;
 
-	// Insert the smaller elements into the correct positions
-	for (typename std::vector<std::pair<int, int> >::iterator it = pairs.begin(); it != pairs.end(); ++it)
+	std::list<int> mainChain, pend;
+	bool isOdd = numbers.size() % 2 != 0;
+
+	// List doesn't have random access using operator []
+	// So we need to use iterators to access elements
+	std::list<int>::iterator it = numbers.begin();
+	for (size_t i = 0; i < numbers.size() - isOdd; i += 2)
 	{
-		typename Container::iterator insertPos = std::lower_bound(result.begin(), result.end(), it->first);
-		result.insert(insertPos, it->first);
-		// outputContainer(result);
+		std::list<int>::iterator it1 = it++;
+		std::list<int>::iterator it2 = it++;
+		if (*it1 < *it2)
+		{
+			mainChain.push_back(*it2);
+			pend.push_back(*it1);
+		}
+		else
+		{
+			mainChain.push_back(*it1);
+			pend.push_back(*it2);
+		}
 	}
+	if (isOdd)
+		pend.push_back(numbers.back());
+
+	fjsort_list(mainChain);
+
+	if (pend.empty())
+		return;
+	std::vector<size_t> insertSequence = getInsertSequence(pend.size());
+	for (size_t i = 0; i < insertSequence.size(); ++i)
+	{
+		std::list<int>::iterator it = pend.begin();
+		std::advance(it, insertSequence[i]);
+
+		std::list<int>::iterator insertPosition = std::lower_bound(mainChain.begin(), mainChain.end(), *it);
+		mainChain.insert(insertPosition, *it);
+	}
+	numbers = mainChain;
 }

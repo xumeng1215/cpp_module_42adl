@@ -67,6 +67,8 @@
 		"queue": "cpp",
 		"ratio": "cpp",
 		"stack": "cpp",
-		"variant": "cpp"
+		"variant": "cpp",
+		"list": "cpp",
+		"*.tpp": "cpp"
 	}
 }

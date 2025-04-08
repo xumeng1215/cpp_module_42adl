@@ -7,8 +7,8 @@
 #include <sstream>
 #include <stdexcept>
 #include <algorithm>
-#include <utility> // For std::pair
 #include <ctime>   // For clock()
+#include <list>
 
 class PmergeMe
 {
@@ -16,18 +16,16 @@ public:
 	PmergeMe();
 	~PmergeMe();
 
-	void merge(int ac, char **av);
-
-private:
-	template <typename Container>
-	Container parseInputToContainer(int ac, char **av);
-
-	template <typename Container>
-	void fordJohnsonSort(Container &numbers);
-
-	template <typename Container>
-	void mergePairs(std::vector<std::pair<int, int> > &pairs, Container &result);
+	void processInput(int ac, char **av);
 
 	template <typename Container>
 	void outputContainer(const Container &result);
+
+	template <typename Container>
+	Container parseInputToContainer(int ac, char **av);
+	
+private:
+	
+	void fjsort_deque(std::deque<int> &numbers);
+	void fjsort_list(std::list<int> &numbers);
 };

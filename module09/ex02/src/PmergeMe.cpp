@@ -12,7 +12,7 @@ static void output_list(std::list<int> &result)
 	{
 		std::cout << *it;
 		++it;
-		if (it!= result.end())
+		if (it != result.end())
 			std::cout << " ";
 	}
 	std::cout << std::endl;
@@ -30,6 +30,20 @@ static void output_deque(std::deque<int> &result)
 			std::cout << " ";
 	}
 	std::cout << std::endl;
+}
+
+static std::vector<size_t> getNormalSequence(size_t pendSize)
+{
+	std::vector<size_t> sequence;
+	if (pendSize == 0)
+		return sequence;
+
+	// Generate a normal sequence from 0 to pendSize - 1
+	for (size_t i = 0; i < pendSize; ++i)
+	{
+		sequence.push_back(i);
+	}
+	return sequence;
 }
 
 static std::vector<size_t> getInsertSequence(size_t pendSize)
@@ -80,7 +94,7 @@ void PmergeMe::processInput(int ac, char **av)
 	std::deque<int> d = parseInputToContainer<std::deque<int> >(ac, av);
 	std::list<int> l = parseInputToContainer<std::list<int> >(ac, av);
 	std::clock_t t1, t2;
-	
+
 	output_deque(d);
 	output_list(l);
 
@@ -100,6 +114,25 @@ void PmergeMe::processInput(int ac, char **av)
 	output_list(l);
 	std::cout << "Time taken (deque): " << elapsedDeque << " ms" << std::endl;
 	std::cout << "Time taken (list): " << elapsedList << " ms" << std::endl;
+
+	std::cout << "Test using normal sequence---------------------" << std::endl;
+	std::deque<int> d2 = parseInputToContainer<std::deque<int> >(ac, av);
+	std::list<int> l2 = parseInputToContainer<std::list<int> >(ac, av);
+
+	// Sort using std::deque and measure time
+	t1 = std::clock();
+	fjsort_deque_without_jacobsthal(d2);
+	t2 = std::clock();
+	double elapsedDeque2 = 1000.0 * (t2 - t1) / CLOCKS_PER_SEC;
+
+	// Sort using std::list and measure time
+	t1 = std::clock();
+	fjsort_list_without_jacobsthal(l2);
+	t2 = std::clock();
+	double elapsedList2 = 1000.0 * (t2 - t1) / CLOCKS_PER_SEC;
+
+	std::cout << "Time taken (deque): " << elapsedDeque2 << " ms" << std::endl;
+	std::cout << "Time taken (list): " << elapsedList2 << " ms" << std::endl;
 }
 
 template <typename Container>
@@ -125,7 +158,7 @@ void PmergeMe::fjsort_deque(std::deque<int> &numbers)
 {
 	if (numbers.size() <= 1)
 		return;
-	
+
 	// SPLIT THE NUMBERS INTO MAIN CHAIN AND PENDING ELEMENTS
 	std::deque<int> mainChain, pend;
 	bool isOdd = numbers.size() % 2 != 0;
@@ -155,10 +188,12 @@ void PmergeMe::fjsort_deque(std::deque<int> &numbers)
 
 	// Generate the insertion sequence using Jacobsthal numbers
 	std::vector<size_t> insertSequence = getInsertSequence(pend.size());
+
 	for (size_t i = 0; i < insertSequence.size(); ++i)
 	{
-		std::deque<int>::iterator insertPosition = std::lower_bound(mainChain.begin(), mainChain.end(), pend[insertSequence[i]]);
-		mainChain.insert(insertPosition, pend[insertSequence[i]]);
+		// std::deque<int>::iterator insertPosition = std::lower_bound(mainChain.begin(), mainChain.end(), pend[insertSequence[i]]);
+		// mainChain.insert(insertPosition, pend[insertSequence[i]]);
+		binaryInsert(mainChain, pend[insertSequence[i]]);
 	}
 	numbers = mainChain;
 }
@@ -202,8 +237,128 @@ void PmergeMe::fjsort_list(std::list<int> &numbers)
 		std::list<int>::iterator it = pend.begin();
 		std::advance(it, insertSequence[i]);
 
-		std::list<int>::iterator insertPosition = std::lower_bound(mainChain.begin(), mainChain.end(), *it);
-		mainChain.insert(insertPosition, *it);
+		// std::list<int>::iterator insertPosition = std::lower_bound(mainChain.begin(), mainChain.end(), *it);
+		// mainChain.insert(insertPosition, *it);
+		binaryInsert(mainChain, *it);
 	}
 	numbers = mainChain;
+}
+
+void PmergeMe::fjsort_deque_without_jacobsthal(std::deque<int> &numbers)
+{
+	if (numbers.size() <= 1)
+		return;
+
+	// SPLIT THE NUMBERS INTO MAIN CHAIN AND PENDING ELEMENTS
+	std::deque<int> mainChain, pend;
+	bool isOdd = numbers.size() % 2 != 0;
+
+	for (size_t i = 0; i < numbers.size() - isOdd; i += 2)
+	{
+		if (numbers[i] < numbers[i + 1])
+		{
+			mainChain.push_back(numbers[i + 1]);
+			pend.push_back(numbers[i]);
+		}
+		else
+		{
+			mainChain.push_back(numbers[i]);
+			pend.push_back(numbers[i + 1]);
+		}
+	}
+	if (isOdd) // If the size is odd, add the last element to pend
+		pend.push_back(numbers.back());
+
+	// RECURSIVE SORTING THE MAIN CHAIN
+	fjsort_deque(mainChain);
+
+	// ADD PENDING ELEMENTS
+	if (pend.empty())
+		return;
+
+	// Generate the insertion sequence using Jacobsthal numbers
+	std::vector<size_t> insertSequence = getNormalSequence(pend.size());
+
+	for (size_t i = 0; i < insertSequence.size(); ++i)
+	{
+		// std::deque<int>::iterator insertPosition = std::lower_bound(mainChain.begin(), mainChain.end(), pend[insertSequence[i]]);
+		// mainChain.insert(insertPosition, pend[insertSequence[i]]);
+
+		binaryInsert(mainChain, pend[insertSequence[i]]);
+	}
+	numbers = mainChain;
+}
+
+void PmergeMe::fjsort_list_without_jacobsthal(std::list<int> &numbers)
+{
+	if (numbers.size() <= 1)
+		return;
+
+	std::list<int> mainChain, pend;
+	bool isOdd = numbers.size() % 2 != 0;
+
+	// List doesn't have random access using operator []
+	// So we need to use iterators to access elements
+	std::list<int>::iterator it = numbers.begin();
+	for (size_t i = 0; i < numbers.size() - isOdd; i += 2)
+	{
+		std::list<int>::iterator it1 = it++;
+		std::list<int>::iterator it2 = it++;
+		if (*it1 < *it2)
+		{
+			mainChain.push_back(*it2);
+			pend.push_back(*it1);
+		}
+		else
+		{
+			mainChain.push_back(*it1);
+			pend.push_back(*it2);
+		}
+	}
+	if (isOdd)
+		pend.push_back(numbers.back());
+
+	fjsort_list(mainChain);
+
+	if (pend.empty())
+		return;
+	std::vector<size_t> insertSequence = getNormalSequence(pend.size());
+	for (size_t i = 0; i < insertSequence.size(); ++i)
+	{
+		std::list<int>::iterator it = pend.begin();
+		std::advance(it, insertSequence[i]);
+
+		// std::list<int>::iterator insertPosition = std::lower_bound(mainChain.begin(), mainChain.end(), *it);
+		// mainChain.insert(insertPosition, *it);
+
+		binaryInsert(mainChain, *it);
+
+	}
+	numbers = mainChain;
+}
+
+
+template <typename Container>
+void PmergeMe::binaryInsert(Container &mainChain, int value)
+{
+    typename Container::iterator left = mainChain.begin();
+    typename Container::iterator right = mainChain.end();
+
+    while (left != right)
+    {
+        typename Container::iterator mid = left;
+        std::advance(mid, std::distance(left, right) / 2);
+
+        if (value < *mid)
+        {
+            right = mid;
+        }
+        else
+        {
+            left = mid;
+            ++left;
+        }
+    }
+
+    mainChain.insert(left, value);
 }

@@ -176,7 +176,7 @@ void BitcoinExchange::processInput(const std::string &inputfile)
 			continue;
 
 		std::map<std::string, double>::iterator it = this->_exchangeRates.lower_bound(date);
-		if (it != this->_exchangeRates.end() || it->first != date)
+		if (it == this->_exchangeRates.end() || it->first != date)
 		{
 			if (it == this->_exchangeRates.begin())
 			{
